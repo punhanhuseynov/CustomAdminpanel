@@ -1,0 +1,26 @@
+{% extends 'base/base.html' %}
+
+{% block main %}
+
+
+    
+    <div class="row">
+        
+        <form action="/{{url}}" method="POST"  enctype="multipart/form-data">
+            <h2>Add User</h2>
+            {% csrf_token %}
+            {% for i in form %}
+            <div class="row mb-3">
+                {{ i.label_tag}}
+                {{i}}
+            </div>
+            {% endfor %}
+        <button type='submit' class="btn btn-primary">Add</button>
+        </form>
+        
+        
+    </div>
+    
+
+    
+{% endblock %}

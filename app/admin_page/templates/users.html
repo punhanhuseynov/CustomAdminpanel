@@ -1,0 +1,74 @@
+{% extends 'base/base.html' %}
+
+{% block main %}
+
+
+    
+    <div class="row">
+        
+        <form action="/admin/users" method="POST" class="col-6" enctype="multipart/form-data">
+            <h2>Add User</h2>
+            <h3 class="text-color:">{{error}}</h3>
+            {% csrf_token %}
+            {% for i in form %}
+            <div class="row mb-3">
+                {{ i.label_tag}}
+                {{i}}
+            </div>
+            {% endfor %}
+            
+        <button type='submit' class="btn btn-primary">Add</button>
+        </form>
+        
+        <div class="col-6">
+            <H2>All Users</H2>
+            <div class="card">
+                <div class="card-body">
+                  
+    
+                  <!-- Default Table -->
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">UserName</th>
+                        <th scope="col">admin</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in users %}
+                        <tr>
+                            <th scope="row"></th>
+                            <th scope="row">{{i.username}}</th>
+                            <td>{{i.is_admin}}</td>
+                            <td>
+                                {% if i.is_admin == False %}
+                                <a href="/admin/delete/user/{{i.id}}" class="btn btn-danger">Delete</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                
+                                <a href="/admin/update/user/{{i.id}}" class="btn btn-primary">Update</a>
+                                
+                            </td>
+                            
+                        </tr>
+                        {% endfor %}
+                      
+                       
+                      
+                    </tbody>
+                  </table>
+                  <!-- End Default Table Example -->
+                </div>
+              </div>
+            
+        </div>
+    </div>
+    
+
+    
+{% endblock %}

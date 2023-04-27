@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+
+{% block main %}
+<h2>Change password</h2>
+<div class="card">
+    <div class="card-body">
+     
+
+      <!-- Multi Columns Form -->
+      <form action='/admin/profile/{{id}}/change/password' method='POST' class="row g-3">
+        {% csrf_token %}
+        <div class="col-md-12">
+          <label for="inputName5" class="form-label">Old password</label>
+          <input type="password" name='oldpass' class="form-control" id="inputName5">
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail5" class="form-label">New password</label>
+          <input type=password" name="newpass" class="form-control" id="inputEmail5">
+        </div>
+
+        <div class="col-md-6">
+            <label for="inputEmail5" class="form-label">New password again</label>
+            <input type="password"  name='newpass2' class="form-control" id="inputEmail5">
+          </div>
+
+          <div class="col-md-6">
+            <button type="submit" class="btn btn-success">reset password</button>
+          </div>
+        
+      </form><!-- End Multi Columns Form -->
+
+    </div>
+</div>
+
+{% endblock %}
