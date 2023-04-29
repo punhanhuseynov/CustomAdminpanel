@@ -45,7 +45,7 @@
                             <th scope="row">{{i.username}}</th>
                             <td>{{i.is_admin}}</td>
                             <td>
-                                {% if i.is_admin == False %}
+                                {% if i.is_superuser == False %}
                                 <a href="/admin/delete/user/{{i.id}}" class="btn btn-danger">Delete</a>
                                 {% endif %}
                             </td>

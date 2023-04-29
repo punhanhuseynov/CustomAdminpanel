@@ -38,7 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'admin_page'
+    
 ]
+
+AUTH_USER_MODEL='admin_page.Myuser'
+LOGIN_URL = '/admin/login'
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -131,12 +137,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'admin_page','static','assets')
 # import os
 
 
-AUTHENTICATION_BACKENDS = [
-    'admin_page.backends.Userbackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
+# AUTHENTICATION_BACKENDS = [
+#     'admin_page.backends.Userbackend',
+#     'django.contrib.auth.backends.ModelBackend',
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

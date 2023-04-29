@@ -1,10 +1,12 @@
 from django import forms
 from django.core.validators import RegexValidator
-from .models import Users
+from .models import Myuser
+from django.contrib.auth.hashers import make_password
+
 import random
 class Userform(forms.ModelForm):
     class Meta:
-        model=Users
+        model=Myuser
         fields="__all__"
        
         
@@ -16,8 +18,9 @@ class Userform(forms.ModelForm):
             "number":forms.TextInput(attrs={'class':'form-control','placeholder':'+944'}),
             'img':forms.FileInput(attrs={'class':'form-control'}),
             "email":forms.EmailInput(attrs={'class':'form-control'}),
-            "is_active":forms.CheckboxInput(attrs={'class':'form-control'})
+           
         }
+    
 
     def clean(self):
         cleaned_data=super().clean()

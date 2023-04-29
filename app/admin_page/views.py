@@ -1,61 +1,52 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 import os
 import re
 # Create your views here.
 from .forms import Userform
-from .models import Users
+from .models import Myuser
 
 def index(request):
     return redirect('/admin/login')
 
+@login_required
 def admin_index(request):
-    adminuser=request.session.get('admin')
-    if adminuser is None:
 
-        return redirect('/admin/login')
-        
- 
+
     return render(request,'index.html')
     
 def admin_login(request):
     
     
     if request.method=='POST':
-        data=Users.objects.filter(username=request.POST['username'],password=request.POST['password']).first()
-        if data is None:
-            return redirect('/admin/login')
-        else:
-            if data.is_admin==True:
-                request.session['admin']={
-                    "id":data.id,
-                    "username":data.username,
-                    "password":data.password,
-                    "img":str(data.img)
-                }
-                return redirect('/admin')
+       user=request.POST['username']
+       passw=request.POST['password']
+       data=authenticate(request,username=user,password=passw)
+       if data is not None:
+            login(request,data)
+            return redirect('/admin')
+       
+    #    else:
+    #         return HttpResponse(passw)
+           
     
     return render(request,'login.html')
 
+@login_required
 def admin_logout(request):
-    adminuser=request.session.get('admin')
-    if adminuser is None:
 
-        return redirect('/admin/login')
+    
         
-    del request.session['admin']
+    logout(request)
     
     return redirect('/admin')
 
+@login_required
 def admin_add_user(request):
 
-    adminuser=request.session.get('admin')
-    if adminuser is None:
-
-        return redirect('/admin/login')
-        
-
-    user=Users.objects.all()
+    user=Myuser.objects.all()
     error=''
     regex = r'^\+994(50|51|70|77|55)\d{7}$'
     if request.method=='POST':
@@ -67,7 +58,6 @@ def admin_add_user(request):
             if re.match(regex,number):
                 
                 
-
                 form.save()
                 return redirect('/admin/users')
             else:
@@ -80,31 +70,30 @@ def admin_add_user(request):
             error='Formda duzgun doldurun'
         
     return render(request,'users.html',{"form":Userform,'users':user,'error':error})
-    
+
+@login_required
 def admin_delete_user(request,id):
 
-    adminuser=request.session.get('admin')
-    if adminuser is None:
 
-        return redirect('/admin/login')
         
-    user=Users.objects.filter(id=id).first()
+    user=Myuser.objects.filter(id=id).first()
     import os
-    path='admin_page/'+os.path.join('static','assets',str(user.img))
+    path=os.path.join('admin_page/static/assets/',str(user.img))
     if os.path.exists(path):
-        os.remove(path)
+        if path=='admin_page/static/assets/':
+                            pass
+        else:
+                        os.remove(path)
     user.delete()
     return redirect('/admin/users')
 
+@login_required
 def admin_update_user(request,id):
 
-    adminuser=request.session.get('admin')
-    if adminuser is None:
 
-        return redirect('/admin/login')
-        
 
-    user=Users.objects.filter(id=id).first()
+    user=Myuser.objects.filter(id=id).first()
+    # return HttpResponse(str(user.img))
     url='admin/update/user/'+id
     regex = r'^\+994(50|51|70|77|55)\d{7}$'
     if request.method=='POST':
@@ -116,9 +105,16 @@ def admin_update_user(request,id):
                 number=str(form.cleaned_data.get('number'))
                 if re.match(regex,number):
 
-                    if os.path.exists(s):
-                        os.remove(s)
+                    if os.path.exists(s) :
+                        # return HttpResponse(s)
+                        if s=='admin_page/static/assets/':
+                            pass
+                        else:
+                            os.remove(s)
+                    pas=form.cleaned_data['password']
+                    
                     form.save()
+                    
                     return redirect('/admin/users')
                 else:
 
@@ -130,14 +126,17 @@ def admin_update_user(request,id):
                 error='Formda duzgun doldurun'
     return render(request,'updateuser.html',{"form":Userform(instance=user),'url':url})
 
+@login_required
 def admin_profile(request):
 
-    data=Users.objects.filter(id=request.session.get('admin')['id']).first()
+    data=Myuser.objects.filter(username=request.user).first()
     
+   
     return render(request,'profile.html',{"data":data})
 
+@login_required
 def admin_change_password(request,id):
-    user=Users.objects.filter(id=id).first()
+    user=Myuser.objects.filter(id=id).first()
    
     if request.method=='POST':
 
@@ -153,3 +152,4 @@ def admin_change_password(request,id):
         else:
             return redirect('/admin/profile/'+id+"/change/password")
     return render(request,'change.html',{'id':id})
+

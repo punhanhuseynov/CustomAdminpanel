@@ -21,6 +21,7 @@ from admin_page.views import *
 
 urlpatterns = [
     path('',index),
+    # path('admin/', admin.site.urls),
     path('admin/',admin_index),
     path('admin/login',admin_login),
     path('admin/logout',admin_logout),
