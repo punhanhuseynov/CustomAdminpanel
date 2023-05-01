@@ -11,8 +11,14 @@
             {% csrf_token %}
             {% for i in form %}
             <div class="row mb-3">
-                {{ i.label_tag}}
+              
+                {% if i.label_tag == 'Password' %}
+                {{'HELLO'}}
+                {% else %}
+                {{i.label_tag}}
                 {{i}}
+                {% endif %}
+               
             </div>
             {% endfor %}
         <button type='submit' class="btn btn-primary">Add</button>
