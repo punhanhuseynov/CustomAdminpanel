@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+
+{% block main %}
+
+
+    <h2>Categories </h2>
+
+    <div class="col-12 d-flex justify-content-center">
+        <div class="row ">
+            <div class="card" >
+                <form action="/admin/update/category/{{data.id}}" class="card-body" method="post">
+                    {% csrf_token %}
+                </br>
+                    <input type="text"  value='{{data.name}}'class="form-control" name="category">
+                </br>
+                    <button type='submit' class="btn btn-dark">add</button>
+                </form>
+            </div>
+        
+   
+            
+        </div>
+    </div>
+   
+
+    
+{% endblock %}

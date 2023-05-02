@@ -21,6 +21,7 @@ from admin_page.views import *
 
 urlpatterns = [
     path('',index),
+    path('chat/',chat),
     # path('admin/', admin.site.urls),
     path('admin/',admin_index),
     path('admin/login',admin_login),
@@ -29,7 +30,13 @@ urlpatterns = [
     path('admin/delete/user/<id>',admin_delete_user),
     path('admin/update/user/<id>',admin_update_user),
     path('admin/profile',admin_profile),
-    path('admin/profile/<id>/change/password',admin_change_password)
+    path('admin/profile/<id>/change/password',admin_change_password),
+    path('admin/categories',admin_categories),
+    path('admin/delete/category/<id>',admin_category_delete),
+    path('admin/update/category/<id>',admin_category_update),
+    path('admin/products',admin_products),
+    path('admin/delete/product/<id>',admin_product_delete),
+    path('admin/update/product/<id>',admin_product_update),
 
 
     

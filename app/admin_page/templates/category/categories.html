@@ -1,0 +1,64 @@
+{% extends 'base/base.html' %}
+
+{% block main %}
+
+
+    <h2>Categories </h2>
+
+    <div class="col-12 d-flex justify-content-center">
+        <div class="row col-6">
+            <div class="card" >
+                <form action="/admin/categories" class="card-body" method="post">
+                    {% csrf_token %}
+                </br>
+                    <input type="text" class="form-control" name="category">
+                </br>
+                    <button type='submit' class="btn btn-dark">add</button>
+                </form>
+            </div>
+        
+    </br>
+            <div class="card">
+                
+                <div class="card-body">
+                  <h5 class="card-title">Categories</h5>
+    
+                  <!-- Default Table -->
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        
+                      
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for  i in category %}
+                      <tr>
+
+                        <th scope="row">{{i.id}}</th>
+                        <td>{{i.name}}</td>
+                        <td><a href="/admin/delete/category/{{i.id}}" class="btn btn-danger">delete</a></td>
+                        <td><a href="/admin/update/category/{{i.id}}" class="btn btn-primary">update</a></td>
+
+                      </tr>
+
+                      {% endfor %}
+                    
+                   
+                  
+                      
+                    </tbody>
+                  </table>
+                  <!-- End Default Table Example -->
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+    
+{% endblock %}

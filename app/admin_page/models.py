@@ -64,7 +64,15 @@ class Myuser(AbstractBaseUser):
         self.password=make_password(self.password)
         super(Myuser,self).save(*args,**kwargs)
 
-        
+class Categories(models.Model):
+    name=models.CharField(max_length=20)
+    def __str__(self) -> str:
+        return self.name
+    
+class Products(models.Model):
+    title=models.CharField(max_length=20)
+    text=models.TextField()
+    category=models.ForeignKey('Categories',on_delete=models.CASCADE)
 
 
 

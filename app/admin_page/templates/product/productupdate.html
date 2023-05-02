@@ -1,0 +1,37 @@
+{% extends 'base/base.html' %}
+
+{% block main %}
+
+
+<div class="row">
+  <h2>Products</h2>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <form action="/admin/update/product/{{data.id}}" class='card-body' method="post">
+        {% csrf_token %}
+        </br>
+        <input type="text" name='title'  value="{{data.title}}" class="form-control" placeholder="title">
+        </br>
+        <textarea name="text"  class="form-control" id="" cols="30" rows="10" placeholder="text">{{data.text}}</textarea>
+        </br>
+        <select name="category" class='form-select' id="">
+          <option value="{{data.category.id}}">{{data.category}}</option>
+          {% for i in category %}
+          <option value="{{ i.id }}">{{i.name}}</option>
+          {% endfor %}
+        </select>
+        </br>
+        <button type='submit' class="btn btn-primary">add product</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+{% endblock %}
